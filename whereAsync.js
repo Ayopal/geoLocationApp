@@ -1,6 +1,7 @@
 'use strict';
 
 const btn = document.querySelector('.btn-country');
+const pops = document.querySelector('.pop');
 const countriesContainer = document.querySelector('.countries');
 
 //UI COMPONENT
@@ -39,7 +40,6 @@ const getPosition = function () {
   });
 };
 
-
 const whereAmI = async function () {
   //geolocation
   const myLocation = await getPosition();
@@ -53,7 +53,6 @@ const whereAmI = async function () {
   const reverseGeoData = await reverseGeo.json();
   console.log(reverseGeoData);
 
-
   //get country data from api
   const country = reverseGeoData.country;
   console.log(country);
@@ -63,13 +62,10 @@ const whereAmI = async function () {
   //   console.log(response);
   const [countryDat] = response;
   console.log(countryDat);
- alert(
-   `you are in ${reverseGeoData.city}, ${reverseGeoData.country} and Capital is ${countryDat.capital}`
- );
-
-
-  // render to UI
-  renderUI(countryDat);
+  pops.innerText = `you are in ${reverseGeoData.city}, ${reverseGeoData.country} and Capital is ${countryDat.capital}`;
+  pops.style.margin = '20px auto';
+    // render to UI
+    renderUI(countryDat);
 
   //render neighbouring company
   const [neigbhour] = countryDat?.borders;
@@ -78,18 +74,17 @@ const whereAmI = async function () {
     `https://restcountries.com/v2/alpha/${neigbhour}`
   );
   const neigbhourDat = await neigbhourCountry.json();
-      renderUI(neigbhourDat, 'neigbhour');
+  renderUI(neigbhourDat, 'neigbhour');
   console.log(neigbhourDat);
-  
+
   //render neighbouring company
   const [neigbhour1] = neigbhourDat?.borders;
   const neigbhourCountry1 = await fetch(
-      `https://restcountries.com/v2/alpha/${neigbhour1}`
-      );
-      const neigbhourDat1 = await neigbhourCountry1.json();
-      renderUI(neigbhourDat1, 'neigbhour');
-      console.log(neigbhourDat1);
-
+    `https://restcountries.com/v2/alpha/${neigbhour1}`
+  );
+  const neigbhourDat1 = await neigbhourCountry1.json();
+  renderUI(neigbhourDat1, 'neigbhour');
+  console.log(neigbhourDat1);
 };
 
 btn.addEventListener('click', function () {
