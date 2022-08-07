@@ -1,7 +1,6 @@
 'use strict';
 
 const btn = document.querySelector('.btn-country');
-const pops = document.querySelector('.pop');
 const countriesContainer = document.querySelector('.countries');
 
 //UI COMPONENT
@@ -48,13 +47,13 @@ const whereAmI = async function () {
 
   //reverse my location to a place
   const reverseGeo = await fetch(
-    `https://geocode.xyz/${lat},${lng}?geoit=json&auth=841038720532362559934x84450`
+    `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=en`
   );
   const reverseGeoData = await reverseGeo.json();
   console.log(reverseGeoData);
 
   //get country data from api
-  const country = reverseGeoData.country;
+  const country = reverseGeoData.countryName;
   console.log(country);
   const result = await fetch(`https://restcountries.com/v2/name/${country}`);
   //   console.log(result);
@@ -62,10 +61,12 @@ const whereAmI = async function () {
   //   console.log(response);
   const [countryDat] = response;
   console.log(countryDat);
-  pops.innerText = `you are in ${reverseGeoData.city}, ${reverseGeoData.country} and Capital is ${countryDat.capital}`;
-  pops.style.margin = '20px auto';
-    // render to UI
-    renderUI(countryDat);
+  alert(
+    `you are in ${reverseGeoData.principalSubdivision}, ${reverseGeoData.countryName} and Capital is ${countryDat.capital}`
+  );
+
+  // render to UI
+  renderUI(countryDat);
 
   //render neighbouring company
   const [neigbhour] = countryDat?.borders;
@@ -88,6 +89,7 @@ const whereAmI = async function () {
 };
 
 btn.addEventListener('click', function () {
-  whereAmI()
-    .catch(err => new Throw(err));
+  whereAmI().catch(err => new Throw(err));
 });
+
+// https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=37.42159&longitude=-122.0837&localityLanguage=en
