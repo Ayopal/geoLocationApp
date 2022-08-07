@@ -44,7 +44,7 @@ const getPosition = function () {
 const whereAmI = async function () {
   //geolocation
   const myLocation = await getPosition();
-  console.log(myLocation);
+  // console.log(myLocation);
   const { latitude: lat, longitude: lng } = myLocation.coords;
 
   //reverse my location to a place
@@ -52,17 +52,17 @@ const whereAmI = async function () {
     `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=en`
   );
   const reverseGeoData = await reverseGeo.json();
-  console.log(reverseGeoData);
+  // console.log(reverseGeoData);
 
   //get country data from api
   const country = reverseGeoData.countryName;
-  console.log(country);
+  // console.log(country);
   const result = await fetch(`https://restcountries.com/v2/name/${country}`);
   //   console.log(result);
   const response = await result.json();
   //   console.log(response);
   const [countryDat] = response;
-  console.log(countryDat);
+  // console.log(countryDat);
   curLocation.innerText = `you are in ${reverseGeoData.principalSubdivision}, ${reverseGeoData.countryName} and Capital is ${countryDat.capital}`;
 
   // render to UI
@@ -76,7 +76,7 @@ const whereAmI = async function () {
   );
   const neigbhourDat = await neigbhourCountry.json();
   renderUI(neigbhourDat, 'neigbhour');
-  console.log(neigbhourDat);
+  // console.log(neigbhourDat);
 
   //render neighbouring company
   const [neigbhour1] = neigbhourDat?.borders;
@@ -85,14 +85,13 @@ const whereAmI = async function () {
   );
   const neigbhourDat1 = await neigbhourCountry1.json();
   renderUI(neigbhourDat1, 'neigbhour');
-  console.log(neigbhourDat1);
+  // console.log(neigbhourDat1);
 };
 
-btn
-  .addEventListener('click', function () {
-    whereAmI();
-  })
-  .catch(err => new Throw(err));
+btn.addEventListener('click', function () {
+  whereAmI().catch(err => new Throw(err));
+});
+
 
 // https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=37.42159&longitude=-122.0837&localityLanguage=en
 // https://www.bigdatacloud.com/docs/api/free-reverse-geocode-to-city-api
