@@ -2,6 +2,8 @@
 
 const btn = document.querySelector('.btn-country');
 const countriesContainer = document.querySelector('.countries');
+const curLocation = document.querySelector('.pop');
+
 
 //UI COMPONENT
 const renderUI = function (result, className = '') {
@@ -61,9 +63,7 @@ const whereAmI = async function () {
   //   console.log(response);
   const [countryDat] = response;
   console.log(countryDat);
-  alert(
-    `you are in ${reverseGeoData.principalSubdivision}, ${reverseGeoData.countryName} and Capital is ${countryDat.capital}`
-  );
+  curLocation.innerText = `you are in ${reverseGeoData.principalSubdivision}, ${reverseGeoData.countryName} and Capital is ${countryDat.capital}`;
 
   // render to UI
   renderUI(countryDat);
@@ -88,8 +88,11 @@ const whereAmI = async function () {
   console.log(neigbhourDat1);
 };
 
-btn.addEventListener('click', function () {
-  whereAmI().catch(err => new Throw(err));
-});
+btn
+  .addEventListener('click', function () {
+    whereAmI();
+  })
+  .catch(err => new Throw(err));
 
 // https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=37.42159&longitude=-122.0837&localityLanguage=en
+// https://www.bigdatacloud.com/docs/api/free-reverse-geocode-to-city-api

@@ -136,6 +136,12 @@ body {
 }
 
 
+.pop {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
 @media(max-width: 480px) {
 
 .container {
